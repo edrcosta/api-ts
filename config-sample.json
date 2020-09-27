@@ -1,0 +1,10 @@
+{
+    "env" : "development",
+    "jwt_secret" :  "Grqi2qzVXX",
+    "server" : {
+        "port" : 3000
+    },
+    "endpoint" : {
+        "perPage" : 10
+    }
+}

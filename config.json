@@ -1,0 +1,13 @@
+{
+    "env" : "development",
+    "jwt" :  { 
+        "secret": "Grqi2qzVXX-asdu0", 
+        "algorithms": ["RS256"]
+    },
+    "server" : {
+        "port" : 3000
+    },
+    "endpoint" : {
+        "perPage" : 10
+    }
+}
