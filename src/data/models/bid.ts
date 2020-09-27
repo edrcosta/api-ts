@@ -7,13 +7,28 @@ export const BidModel = {
         primaryKey: true,
         type: INTEGER
     },
-    item: {
+    email: {
         type: STRING,
         allowNull : false,
 		trim: true,
 		validate: {
 			notNull: { msg: "item field is required" },
 		}
+    },
+    amount: {
+        type: NUMBER,
+        allowNull : false,
+		trim: true,
+		validate: {
+			notNull: { msg: "item field is required" },
+		}
+    },
+    auctionId: {
+        type: NUMBER,
+        allowNull : false,
+		trim: true,
+		validate: {
+			notNull: { msg: "item field is required" },
+		}
     }
-};
-
+}
