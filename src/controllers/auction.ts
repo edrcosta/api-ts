@@ -1,24 +1,35 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
+import { BaseController } from './'
 
-export class AuctionController{
-
-    public async start(req : any, res : Response){
-
+export class AuctionController extends BaseController
+{
+    public async start(req: Request, res : Response){
+        res.json(this.formatedResponse(req, {
+            hello: 'world'
+        }))
     }
 
-    public async create(req : any, res : Response){
-
+    public async create(req: Request, res : Response){
+        res.json(this.formatedResponse(req, {
+            hello: 'world'
+        }))
     }
     
-    public async end(req : any, res : Response){
-
+    public async end(req: Request, res : Response){
+        res.json(this.formatedResponse(req, {
+            hello: 'world'
+        }))
     }
 
-    public async addBid(req : any, res : Response){
-
+    public async addBid(req: Request, res : Response){
+        res.json(this.formatedResponse(req, {
+            hello: 'world'
+        }))
     }
 
-    public async getOne(req : any, res : Response){
-
+    public async getOne(req: Request, res : Response){
+        res.json(this.formatedResponse(req, {
+            hello: 'world'
+        }))
     }
 }
