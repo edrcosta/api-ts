@@ -1,8 +1,6 @@
-import { Response, Request } from 'express';
-
 export class BaseController
 {
-    formatedResponse(req: Request, data){
+    formatedResponse(data){
         return {
             meta: {
                 status: 200,
