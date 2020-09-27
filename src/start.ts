@@ -22,7 +22,7 @@ app.use((req : express.Request, res : express.Response, next : express.NextFunct
 });
 
 //Loading endpoints
-const jwtMiddleware = exjwt({ secret: config.jwt_secret});
+const jwtMiddleware = exjwt(config.jwt);
 
 EndpointList.forEach((endpoint : IEndpoint) => {
     
