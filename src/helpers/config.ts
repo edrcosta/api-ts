@@ -1,14 +1,14 @@
 import * as fs from 'fs';
 import { IConfig } from '../interfaces';
 
-export class Config
+export class ConfigHelper
 {
     static config : IConfig = null;
 
     static get() : IConfig
     {
         //singleton
-        if(!Config.config){ 
+        if(!ConfigHelper.config){ 
             
             const file = `${__dirname.replace('src/helpers', '')}config.json`;
             const dbfile = `${__dirname.replace('src/helpers', '')}db-config.json`;
@@ -26,9 +26,9 @@ export class Config
             //@todo change this 
             config.database = `${db.dialect}://${db.username}:${db.password}@${db.host}/${db.database}`;
 
-            Config.config = config;
+            ConfigHelper.config = config;
         }
 
-        return Config.config;
+        return ConfigHelper.config;
     }
 }
