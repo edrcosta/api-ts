@@ -2,11 +2,11 @@ import * as express from 'express';
 import * as bodyparser from 'body-parser';
 import * as exjwt from 'express-jwt';
 
-import { Config } from './helpers/config';
+import { ConfigHelper } from './helpers/config';
 import { EndpointList } from './endpoints';
 import { IEndpoint } from './interfaces';
 
-const config = Config.get();
+const config = ConfigHelper.get();
 const app = express();
 
 //setup server
