@@ -1,7 +1,7 @@
 {
     "env" : "development",
     "jwt" :  { 
-        "secret": "Grqi2qzVXX-asdu0", 
+        "secret": "cvrDhCNjOdnTyqUBHCLVNrkYUgvKnEtwykHRkOuHlGYJ", 
         "algorithms": ["RS256"]
     },
     "server" : {
