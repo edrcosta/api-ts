@@ -1,29 +1,23 @@
 import * as express from 'express';
 import * as bodyparser from 'body-parser';
-import * as exjwt from 'express-jwt';
 
-import { ConfigHelper } from './helpers/config';
+import { ConfigHelper, ResponseHelper } from './helpers';
 import { EndpointList } from './endpoints';
 import { IEndpoint } from './interfaces';
+import { AuthenticationService } from './services'
 
 const config = ConfigHelper.get();
 const app = express();
 
-//setup server
+const authentication = new AuthenticationService();
+const auth = authentication.getAuthenticationmiddleware();
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use((req : express.Request, res : express.Response, next : express.NextFunction) => {
-    
-    console.log(`new HTTP request ${req.method} :: ${req.url}`);
+app.use(ResponseHelper.httpHeader);
+app.use(ResponseHelper.errorHanddler);
 
-    res.setHeader('Access-Control-Allow-Origin', `http://localhost:${config.server.port}`);
-    res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
-    next();
-});
-
-//Loading endpoints
-const jwtMiddleware = exjwt(config.jwt);
-
+//loading endpoints
 EndpointList.forEach((endpoint : IEndpoint) => {
     
     console.log('Loading endpoint', endpoint.url, endpoint.method)
@@ -31,17 +25,7 @@ EndpointList.forEach((endpoint : IEndpoint) => {
     if(endpoint.public){
         app[endpoint.method](endpoint.url, endpoint.handdler);
     }else{
-        app[endpoint.method](endpoint.url, jwtMiddleware, endpoint.handdler);
-    }
-});
-
-//Setup error handdler
-app.use(function (err : express.ErrorRequestHandler, req : express.Request, res : express.Response, next : express.NextFunction) {
-    console.log(req);
-    if (err.name === 'UnauthorizedError') {
-        res.status(401).send(err);//pretty auth error
-    }else {
-        next(err);
+        app[endpoint.method](endpoint.url, auth, endpoint.handdler);
     }
 });
 

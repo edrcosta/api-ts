@@ -1,38 +1,38 @@
 export interface IEndpoint {
-    url : string
-    public? : boolean
-    handdler : Function
-    method : string
+    url: string
+    public?: boolean
+    handdler: Function
+    method: string
 }
 
 export interface IGetRequest{
-    body : {
-        page? : number,
-        brand? : number,
-        model? : number,
+    body: {
+        page?: number,
+        brand?: number,
+        model?: number,
     }
 }
 
 export interface IRemoveRequest{
-    params : {
-        id : number
+    params: {
+        id: number
     }
 }
 
 export interface IUpdateRequest<T>{
-    params : {
-        id : number
+    params: {
+        id: number
     },
-    body : T
+    body: T
 }
 
 export interface ICreateRequest<T>{
-    body : T
+    body: T
 }
 
 export interface IAuthRequest{
-    body : {
-        username : string,
-        password : string,
+    body: {
+        username: string,
+        password: string,
     }
 }
