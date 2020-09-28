@@ -20,7 +20,6 @@ export class ConfigHelper
             //each execution will get this setting
             let config = require(file);
             const database = require(dbfile);
-            
             const db = database[config.env];
 
             //@todo change this 
