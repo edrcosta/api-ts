@@ -3,8 +3,9 @@ import * as jwt from 'jsonwebtoken';
 import * as express from 'express';
 import * as exjwt from 'express-jwt';
 
+import{ UsersBussiness } from '../bussiness';
 import { ConfigHelper } from '../helpers';
-import { Database } from '../data/database';
+import { iTokenData } from '../interfaces';
 
 export class AuthenticationService
 {
@@ -36,21 +37,28 @@ export class AuthenticationService
 
     }
 
-    public validateAccessToken(req: express.Request, payload, done){
+    public async validateAccessToken(req: express.Request, payload, done){
         try {
             
             const config = ConfigHelper.get();
+            const users = new UsersBussiness();
 
             const token = req.headers['authorization'].replace('Bearer ', '')
-            const tokenData = jwt.verify(token, config.jwt.secret);
+            const tokenData : iTokenData = jwt.verify(token, config.jwt.secret);
             
-            const database = new Database();
-            console.log('aqui')
-            database.tables.users.find((data) => {
-                console.log(data)
-            })
-            console.log(tokenData);
 
+            const user = await users.getOneWhere({
+                username: tokenData.username
+            });
+
+            console.log(user)
+            // console.log('aqui', database.tables.users)
+            // database.tables.users.find((data) => {
+            //     console.log(data)
+            // })
+            // console.log(tokenData);
+
+            
             // bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
             //     if res == true, password matched
             //     else wrong password
