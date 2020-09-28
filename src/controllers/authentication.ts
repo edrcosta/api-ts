@@ -15,7 +15,7 @@ export class AuthenticationController extends BaseController
         const applicationUsers = [
             {
                 id: 1,
-                username: 'admin',
+                username: 'edercosta',
                 password: '123'
             }
         ];
