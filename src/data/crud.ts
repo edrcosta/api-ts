@@ -41,7 +41,7 @@ export class Crud {
         });
     }
 
-    getOne(id : number){
+    getOneById(id : number){
         return this.db.tables[this.table].findAll({   
             limit : 1,
             where: {id: id}, 
@@ -75,7 +75,7 @@ export class Crud {
         return this.db.tables[this.table].destroy({ where: { id: id } });
     }
 
-    checkExistsByName(where:any){
+    countWhere(where:any){
         return this.db.tables[this.table].count({ where: where });
     }
 }
