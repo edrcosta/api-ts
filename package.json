@@ -1,5 +1,5 @@
 {
-  "name": "teste-developer",
+  "name": "test.developer.api",
   "version": "1.0.0",
   "description": "",
   "main": "src/start.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/start.js"
   },
-  "author": "",
+  "author": "Eder Costa",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",

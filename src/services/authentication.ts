@@ -1,76 +1,70 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import * as express from 'express';
+import { Request } from 'express';
 import * as exjwt from 'express-jwt';
 
 import{ UsersBussiness } from '../bussiness';
 import { ConfigHelper } from '../helpers';
-import { iTokenData } from '../interfaces';
+import { IConfig } from '../interfaces';
 
 export class AuthenticationService
 {
-    public getAuthenticationmiddleware(){
-        const config = ConfigHelper.get();
+    config: IConfig
 
-        //Loading endpoints
-        let auth = new AuthenticationService();
+    constructor(){
+        this.config = ConfigHelper.get();
+    }
+
+    public getAuthenticationmiddleware(){
+        const auth = new AuthenticationService();
 
         return exjwt({
-            secret: config.jwt.secret,
+            secret: this.config.jwt.secret,
             isRevoked: auth.validateAccessToken,
             algorithms: ['HS256']
         });
-
     }
 
-    public createPassSaltHash(){
+    public createPassSaltHash(password: string){
+        return new Promise((resolve, reject) => {
 
-        const saltRounds = 10;
-        const yourPassword = "123";
+            const saltRounds = 10;
+            const salt = bcrypt.genSaltSync(saltRounds);
 
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-            bcrypt.hash(yourPassword, salt, (err, hash) => {
-                // Now we can store the password hash in db.
-                console.log(hash, salt)
+            bcrypt.hash(password, salt, (err, hash) => {
+                if(err) reject(err);
+                resolve({hash, salt});
             });
         });
-
     }
 
-    public async validateAccessToken(req: express.Request, payload, done){
+    public compareHashPassword(hash: string, password: string){
+        return bcrypt.compareSync(password, hash)
+    }
+
+    public async validateAccessToken(req: Request, payload, done){
         try {
             
-            const config = ConfigHelper.get();
             const users = new UsersBussiness();
 
-            const token = req.headers['authorization'].replace('Bearer ', '')
-            const tokenData : iTokenData = jwt.verify(token, config.jwt.secret);
+            const tokenData: any = jwt.verify(
+                req.headers['authorization'].replace('Bearer ', ''), 
+                this.config.jwt.secret
+            );
             
-
             const user = await users.getOneWhere({
                 username: tokenData.username
             });
 
-            console.log(user)
-            // console.log('aqui', database.tables.users)
-            // database.tables.users.find((data) => {
-            //     console.log(data)
-            // })
-            // console.log(tokenData);
+            if(!user || !user[0]) return done(true);
 
-            
-            // bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
-            //     if res == true, password matched
-            //     else wrong password
-            // });
-            // auth.createPassSaltHash()
-            // data.getRevokedToken(issuer, tokenId, function(err, token){
-            
-            return done(null);
-            // });
+            if(user[0].username === tokenData.username){
+                return done(null);
+            }else{
+                return done(true);
+            }
         } catch (error) {
             return done(error);
         }
     };
-    
 }
