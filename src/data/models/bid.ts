@@ -12,7 +12,7 @@ export const BidModel = {
         allowNull : false,
 		trim: true,
 		validate: {
-			notNull: { msg: "item field is required" },
+			notNull: { msg: "email field is required" },
 		}
     },
     amount: {
@@ -20,7 +20,7 @@ export const BidModel = {
         allowNull : false,
 		trim: true,
 		validate: {
-			notNull: { msg: "item field is required" },
+			notNull: { msg: "amount field is required" },
 		}
     },
     auctionId: {
@@ -28,7 +28,7 @@ export const BidModel = {
         allowNull : false,
 		trim: true,
 		validate: {
-			notNull: { msg: "item field is required" },
+			notNull: { msg: "auctionId field is required" },
 		}
     }
 }

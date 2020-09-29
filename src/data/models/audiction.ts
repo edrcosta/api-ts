@@ -1,4 +1,4 @@
-import { INTEGER, NUMBER, STRING, DATE } from 'sequelize';
+import { INTEGER, NUMBER, STRING, DATE, ENUM } from 'sequelize';
 
 export const AudictionModel = {
     id: {
@@ -47,11 +47,11 @@ export const AudictionModel = {
 			notNull: { msg: "winningBidId field is required" },
 		}
     },
-    // 'waiting', 'ongoing', 'finished'
     status: {
-        type: STRING,
+        type: ENUM,
         allowNull : false,
-		trim: true,
+        trim: true,
+        values: ['waiting', 'ongoing', 'finished'],
 		validate: {
 			notNull: { msg: "status field is required" },
 		}
@@ -61,7 +61,7 @@ export const AudictionModel = {
         allowNull : false,
 		trim: true,
 		validate: {
-			notNull: { msg: "neiborhood field is required" },
+			notNull: { msg: "startTime field is required" },
 		}
     },
 };

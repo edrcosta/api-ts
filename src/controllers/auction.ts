@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import { ResponseHelper } from '../helpers';
 import { BaseController } from './'
-import { AuctionsBussiness } from '../bussiness';
+import { AuctionsBussiness, BidBussiness } from '../bussiness';
 
 export class AuctionController extends BaseController
 {
@@ -39,14 +39,35 @@ export class AuctionController extends BaseController
     }
 
     public async addBid(req: Request, res : Response){
-        res.json(ResponseHelper.formatData({
-            hello: 'world'
-        }))
+
+        const bidBussiness = new BidBussiness();
+        const errors = await bidBussiness.validate(req.body);
+
+        if(errors){
+            return res.json(ResponseHelper.formatData({
+                errors: errors
+            }));
+        }
+
+        return res.json(ResponseHelper.formatData(
+            await bidBussiness.create(req.body)
+        ));
     }
 
     public async create(req: Request, res : Response){
-        res.json(ResponseHelper.formatData({
-            hello: 'world'
-        }))
+
+        const auctionsBussiness = new AuctionsBussiness();
+
+        const errors = await auctionsBussiness.validate(req.body);
+
+        if(errors){
+            return res.json(ResponseHelper.formatData({
+                errors: errors
+            }));
+        }
+        
+        return res.json(ResponseHelper.formatData(
+            await auctionsBussiness.create(req.body)
+        ));
     }
 }
