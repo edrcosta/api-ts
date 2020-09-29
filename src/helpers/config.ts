@@ -5,8 +5,7 @@ export class ConfigHelper
 {
     static config : IConfig = null;
 
-    static get() : IConfig
-    {
+    static get() : IConfig {
         //singleton
         if(!ConfigHelper.config){ 
             

@@ -8,8 +8,8 @@
 import { Database } from './database';
 import { ConfigHelper } from '../helpers';
 
-export class Crud {
-
+export class Crud 
+{
     private table : string;
     private fields : any;
     private db : Database;
