@@ -50,7 +50,11 @@ export class AuctionController extends BaseController
         }
 
         return res.json(ResponseHelper.formatData(
-            await bidBussiness.create(req.body)
+            await bidBussiness.create({
+                email: req.body.email,
+                amount: req.body.amount,
+                auctions_id: req.params.auctionId
+            })
         ));
     }
 

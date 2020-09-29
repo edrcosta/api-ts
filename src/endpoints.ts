@@ -11,5 +11,5 @@ export const EndpointList : IEndpoint[] = [
     { url: '/auction/:id/start', method: 'post', handdler: auctionController.start, public: false },
     { url: '/auction/:id', method: 'get', handdler: auctionController.getOne, public: false },
     { url: '/auction', method: 'post', handdler: auctionController.create, public: false },
-    { url: '/auction/:id/bid', method: 'post', handdler: auctionController.addBid, public: false },
+    { url: '/auction/:auctionId/bid', method: 'post', handdler: auctionController.addBid, public: false },
 ];

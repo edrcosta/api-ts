@@ -25,10 +25,7 @@ export const BidModel = {
     },
     auctionId: {
         type: NUMBER,
-        allowNull : false,
+        allowNull : true,
 		trim: true,
-		validate: {
-			notNull: { msg: "auctionId field is required" },
-		}
     }
 }

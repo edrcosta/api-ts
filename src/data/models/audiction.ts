@@ -41,11 +41,8 @@ export const AudictionModel = {
     },
     winningBidId: {
         type: NUMBER,
-        allowNull : false,
-		trim: true,
-		validate: {
-			notNull: { msg: "winningBidId field is required" },
-		}
+        allowNull : true,
+		trim: true
     },
     status: {
         type: ENUM,
