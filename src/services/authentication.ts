@@ -15,6 +15,29 @@ export class AuthenticationService
         this.config = ConfigHelper.get();
     }
 
+    public async validateUserAndGetToken(username: string, password: string){
+
+        const users = new UsersBussiness();
+        const config = ConfigHelper.get();
+        const user = await users.getOneWhere({
+            username: username
+        });
+
+        if(!user || !user[0]) return false;
+    
+        if(this.compareHashPassword(user[0].password_hash, password)){
+            const data = { 
+                id: user[0].id, 
+                username: username,
+                randhash: bcrypt.genSaltSync(20)
+            };
+            
+            return jwt.sign(data, config.jwt.secret);
+        }
+
+        return false
+    }
+
     public getAuthenticationmiddleware(){
         const auth = new AuthenticationService();
 
