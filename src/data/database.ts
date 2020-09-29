@@ -22,18 +22,18 @@ export class Database
 
         this.connection = new Sequelize(this.config.database, {
             dialect : 'mysql',
-            logging : false,
+            logging : true,
         });
 
         //table mapping
         this.tables = {
-            audictions : this.connection.define('Audictions', AudictionModel, tableConfig),
+            auctions : this.connection.define('Auctions', AudictionModel, tableConfig),
             bids : this.connection.define('Bids', BidModel, tableConfig),
             users : this.connection.define('Users', UserModel, tableConfig),
         }
 
         //relationships
-        this.tables.audictions.hasOne(this.tables.bids, { forengKey: 'winning_bid', targetKey : 'id' });
-        this.tables.bids.hasOne(this.tables.audictions, { forengKey: 'audictions_id', targetKey : 'id' });
+        // this.tables.auctions.hasOne(this.tables.bids, { forengKey: 'winning_bid', targetKey : 'id' });
+        // this.tables.bids.hasOne(this.tables.audictions, { forengKey: 'audictions_id', targetKey : 'id' });
     }
 }

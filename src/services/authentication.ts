@@ -5,16 +5,9 @@ import * as exjwt from 'express-jwt';
 
 import{ UsersBussiness } from '../bussiness';
 import { ConfigHelper } from '../helpers';
-import { IConfig } from '../interfaces';
 
 export class AuthenticationService
 {
-    config: IConfig
-
-    constructor(){
-        this.config = ConfigHelper.get();
-    }
-
     public async validateUserAndGetToken(username: string, password: string){
 
         const users = new UsersBussiness();
@@ -40,9 +33,10 @@ export class AuthenticationService
 
     public getAuthenticationmiddleware(){
         const auth = new AuthenticationService();
+        const config = ConfigHelper.get();
 
         return exjwt({
-            secret: this.config.jwt.secret,
+            secret: config.jwt.secret,
             isRevoked: auth.validateAccessToken,
             algorithms: ['HS256']
         });
@@ -67,12 +61,12 @@ export class AuthenticationService
 
     public async validateAccessToken(req: Request, payload, done){
         try {
-            
+            const config = ConfigHelper.get();
             const users = new UsersBussiness();
 
             const tokenData: any = jwt.verify(
                 req.headers['authorization'].replace('Bearer ', ''), 
-                this.config.jwt.secret
+                config.jwt.secret
             );
             
             const user = await users.getOneWhere({

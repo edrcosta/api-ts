@@ -68,7 +68,7 @@ export class Crud
     }
 
     update(id : number, data : any){
-        return this.db.tables[this.table].update( data, { where: { id: id } });
+        return this.db.tables[this.table].update(data, { where: { id: id } });
     }
 
     remove(id : number){

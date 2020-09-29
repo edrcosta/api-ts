@@ -4,10 +4,10 @@ import { ConfigHelper } from '../helpers';
 export class ResponseHelper
 {
     //format any data into the default api response
-    static formatData(data: any){
+    static formatData(data: any, status?: number){
         return {
             meta: {
-                status: 200,
+                status: status ? status : 200,
                 now: new Date(),
                 requestId: 123
             },
