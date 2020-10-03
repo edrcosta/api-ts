@@ -1,11 +1,10 @@
 import { Response } from 'express';
 import { IAuthRequest } from '../interfaces';
 
-import { BaseController } from './base-controller';
 import { AuthenticationService } from '../services';
 import { ResponseHelper } from '../helpers';
 
-export class AuthenticationController extends BaseController
+export class AuthenticationController
 {
     authenticationError = {
         token: null,
