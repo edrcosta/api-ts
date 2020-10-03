@@ -32,7 +32,7 @@ export class Database
             users : this.connection.define('Users', UserModel, tableConfig),
         }
 
-        //relationships
+        // //relationships
         // this.tables.auctions.hasOne(this.tables.bids, { forengKey: 'winning_bid', targetKey : 'id' });
         // this.tables.bids.hasOne(this.tables.audictions, { forengKey: 'audictions_id', targetKey : 'id' });
     }

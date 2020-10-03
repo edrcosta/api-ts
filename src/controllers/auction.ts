@@ -8,9 +8,9 @@ export class AuctionController extends BaseController
     error = ResponseHelper.formatData({ errors: ['error to finish']});
     
     public async start(req: Request, res : Response){
-        const auctionsBussiness = new AuctionsBussiness();
+        const auctionBussiness = new AuctionsBussiness();
         
-        const result = await auctionsBussiness.update(parseInt(req.params.id), {
+        const result = await auctionBussiness.update(parseInt(req.params.id), {
             status: 'ongoing'
         });
 
@@ -20,10 +20,14 @@ export class AuctionController extends BaseController
     }
 
     public async end(req: Request, res : Response){
-        const auctionsBussiness = new AuctionsBussiness();
+        const bidBussiness = new BidBussiness();
+        const auctionBussiness = new AuctionsBussiness()
 
-        const result = await auctionsBussiness.update(parseInt(req.params.id), {
-            status: 'finished'
+        const auctionId = parseInt(req.params.id);
+        
+        const result = await auctionBussiness.update(auctionId, {
+            status: 'finished',
+            winner: await bidBussiness.getWinner(auctionId)
         });
 
         if(!result) return res.json(this.error);
@@ -57,10 +61,19 @@ export class AuctionController extends BaseController
             }, 406)).status(406);
         }
 
-        //check auction status
-        const auctionData = auctionBussiness.getOneById(parseInt(req.params.auctionId))
+        //prevent double bid
+        if(await bidBussiness.countWithSameValue(req.body.amount) > 0){
+            return res.json(ResponseHelper.formatData({
+                errors: [
+                    'auction now cost more'
+                ]
+            }, 406)).status(406);
+        }
 
-        if(typeof auctionData.status === 'undefined' || auctionData.status !== 'ongoing'){
+        //check auction status
+        const auctionData = await auctionBussiness.getOneById(parseInt(req.params.auctionId))
+
+        if(typeof auctionData[0].status === 'undefined' || auctionData[0].status !== 'ongoing'){
             return res.json(ResponseHelper.formatData({
                 errors: ['this action is not ongoing']
             }));

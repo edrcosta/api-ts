@@ -1,4 +1,4 @@
-import { INTEGER, NUMBER, STRING } from 'sequelize';
+import { INTEGER, NUMBER, STRING, DECIMAL } from 'sequelize';
 
 export const BidModel = {
     id: {
@@ -16,7 +16,7 @@ export const BidModel = {
 		}
     },
     amount: {
-        type: NUMBER,
+        type: DECIMAL,
         allowNull : false,
 		trim: true,
 		validate: {

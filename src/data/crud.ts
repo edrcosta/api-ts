@@ -32,12 +32,13 @@ export class Crud
         });
     }
 
-    getOneWhere(where : any){
+    getOneWhere(where : any, orderBy?: any){
         return this.db.tables[this.table].findAll({   
             limit : 1,
             where: where, 
             attributes: this.fields, 
-            raw: true
+            raw: true,
+            order: orderBy
         });
     }
 
