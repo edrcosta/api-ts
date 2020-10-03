@@ -1,16 +1,28 @@
 import { Response, Request } from 'express';
 import { ResponseHelper } from '../helpers';
-import { BaseController } from './'
 import { AuctionsBussiness, BidBussiness } from '../bussiness';
 
-export class AuctionController extends BaseController
+export class AuctionController
 {
     error = ResponseHelper.formatData({ errors: ['error to finish']});
     
     public async start(req: Request, res : Response){
         const auctionBussiness = new AuctionsBussiness();
         
-        const result = await auctionBussiness.update(parseInt(req.params.id), {
+        const auctionId = parseInt(req.params.id);
+
+        const verifyStatus = await auctionBussiness.countWhere({
+            status: 'finished',
+            id: auctionId
+        });
+
+        if(verifyStatus && verifyStatus > 0){
+            return res.json({
+                status: 'finished'
+            })
+        }
+
+        const result = await auctionBussiness.update(auctionId, {
             status: 'ongoing'
         });
 
@@ -32,7 +44,10 @@ export class AuctionController extends BaseController
 
         if(!result) return res.json(this.error);
 
-        return res.json(ResponseHelper.formatData({ status: 'finished'}));
+        return res.json(ResponseHelper.formatData({ 
+            status: 'finished',
+            winner: await bidBussiness.getWinner(auctionId)
+        }));
     }
 
     public async getOne(req: Request, res : Response){
@@ -45,47 +60,6 @@ export class AuctionController extends BaseController
         }
 
         return res.json(ResponseHelper.formatData(auction[0]));
-    }
-
-    public async addBid(req: Request, res : Response){
-
-        const bidBussiness = new BidBussiness();
-        const auctionBussiness = new AuctionsBussiness()
-
-        //check bid format
-        const errors = await bidBussiness.validate(req.body);
-
-        if(errors){
-            return res.json(ResponseHelper.formatData({
-                errors: errors
-            }, 406)).status(406);
-        }
-
-        //prevent double bid
-        if(await bidBussiness.countWithSameValue(req.body.amount) > 0){
-            return res.json(ResponseHelper.formatData({
-                errors: [
-                    'auction now cost more'
-                ]
-            }, 406)).status(406);
-        }
-
-        //check auction status
-        const auctionData = await auctionBussiness.getOneById(parseInt(req.params.auctionId))
-
-        if(typeof auctionData[0].status === 'undefined' || auctionData[0].status !== 'ongoing'){
-            return res.json(ResponseHelper.formatData({
-                errors: ['this action is not ongoing']
-            }));
-        }
-
-        return res.json(ResponseHelper.formatData(
-            await bidBussiness.create({
-                email: req.body.email,
-                amount: req.body.amount,
-                auctions_id: req.params.auctionId
-            })
-        ));
     }
 
     public async create(req: Request, res : Response){
