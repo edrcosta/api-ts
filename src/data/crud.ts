@@ -11,16 +11,16 @@ import { ConfigHelper } from '../helpers';
 export class Crud 
 {
     private table : string;
-    private fields : any;
+    private fields : string[];
     private db : Database;
 
-    constructor(table : string, fields : any){
+    constructor(table : string, fields : string[]){
         this.table = table;
         this.fields = fields;
         this.db = new Database();
     }
 
-    list(page? : number){
+    list<T>(page? : number): Promise<T>{
 
         page = page ? page : 1;
 
@@ -32,7 +32,7 @@ export class Crud
         });
     }
 
-    getOneWhere(where : any, orderBy?: any){
+    getOneWhere<T>(where : any, orderBy?: [string[]]): Promise<T>{
         return this.db.tables[this.table].findAll({   
             limit : 1,
             where: where, 
@@ -42,7 +42,7 @@ export class Crud
         });
     }
 
-    getOneById(id : number){
+    getOneById<T>(id : number): T{
         return this.db.tables[this.table].findAll({   
             limit : 1,
             where: {id: id}, 
@@ -51,7 +51,7 @@ export class Crud
         });
     }
 
-    validate(data : any){
+    validate<T>(data : any): Promise<T>{
         return new Promise((resolve : any) => {
             this.db.tables[this.table].build(data)
                 .validate()
@@ -64,19 +64,19 @@ export class Crud
         });
     }
 
-    create(data : any){        
+    create<T>(data : any): Promise<T>{        
         return this.db.tables[this.table].create(data);
     }
 
-    update(id : number, data : any){
+    update<T>(id : number, data : any): Promise<T>{
         return this.db.tables[this.table].update(data, { where: { id: id } });
     }
 
-    remove(id : number){
+    remove<T>(id : number): Promise<T>{
         return this.db.tables[this.table].destroy({ where: { id: id } });
     }
 
-    countWhere(where:any){
+    countWhere<T>(where:any): Promise<T>{
         return this.db.tables[this.table].count({ where: where });
     }
 }

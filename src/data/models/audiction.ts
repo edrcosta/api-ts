@@ -61,5 +61,12 @@ export const AudictionModel = {
 			notNull: { msg: "startTime field is required" },
 		}
     },
+    created: {
+        type: DATE,
+        allowNull : true
+    },
+    updated: {
+        type: DATE,
+        allowNull : true
+    },
 };
-
