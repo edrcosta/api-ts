@@ -5,25 +5,30 @@ import { AuctionsBussiness, BidBussiness } from '../bussiness';
 
 export class AuctionController extends BaseController
 {
+    error = ResponseHelper.formatData({ errors: ['error to finish']});
+    
     public async start(req: Request, res : Response){
-
         const auctionsBussiness = new AuctionsBussiness();
         
-        return res.json(ResponseHelper.formatData(
-            await auctionsBussiness.update(parseInt(req.params.id), {
-                status: 'ongoing'
-            })
-        ));
+        const result = await auctionsBussiness.update(parseInt(req.params.id), {
+            status: 'ongoing'
+        });
+
+        if(!result) return res.json(this.error);            
+    
+        return res.json(ResponseHelper.formatData({ status: 'ongoing'}));
     }
 
     public async end(req: Request, res : Response){
         const auctionsBussiness = new AuctionsBussiness();
 
-        return res.json(ResponseHelper.formatData(
-            await auctionsBussiness.update(parseInt(req.params.id), {
-                status: 'finished'
-            })
-        ));
+        const result = await auctionsBussiness.update(parseInt(req.params.id), {
+            status: 'finished'
+        });
+
+        if(!result) return res.json(this.error);
+
+        return res.json(ResponseHelper.formatData({ status: 'finished'}));
     }
 
     public async getOne(req: Request, res : Response){
@@ -41,11 +46,23 @@ export class AuctionController extends BaseController
     public async addBid(req: Request, res : Response){
 
         const bidBussiness = new BidBussiness();
+        const auctionBussiness = new AuctionsBussiness()
+
+        //check bid format
         const errors = await bidBussiness.validate(req.body);
 
         if(errors){
             return res.json(ResponseHelper.formatData({
                 errors: errors
+            }, 406)).status(406);
+        }
+
+        //check auction status
+        const auctionData = auctionBussiness.getOneById(parseInt(req.params.auctionId))
+
+        if(typeof auctionData.status === 'undefined' || auctionData.status !== 'ongoing'){
+            return res.json(ResponseHelper.formatData({
+                errors: ['this action is not ongoing']
             }));
         }
 
@@ -67,7 +84,7 @@ export class AuctionController extends BaseController
         if(errors){
             return res.json(ResponseHelper.formatData({
                 errors: errors
-            }));
+            }, 406)).status(406);
         }
         
         return res.json(ResponseHelper.formatData(

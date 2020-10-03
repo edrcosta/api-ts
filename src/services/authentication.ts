@@ -56,7 +56,7 @@ export class AuthenticationService
     }
 
     public compareHashPassword(hash: string, password: string){
-        return bcrypt.compareSync(password, hash)
+        return bcrypt.compareSync(password, hash);
     }
 
     public async validateAccessToken(req: Request, payload, done){
