@@ -28,6 +28,7 @@ export class ResponseHelper
         next();
     }
 
+    //@todo
     static errorHanddler = (err : ErrorRequestHandler, req : Request, res : Response, next : NextFunction) => {
         console.log(req);
         if (err.name === 'UnauthorizedError') {

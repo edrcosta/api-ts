@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "691241eb-5595-4945-99ed-7eece3a516d5",
+		"name": "teste-developer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get jwt token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"edercosta\",\n    \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/authentication",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"authentication"
+					]
+				},
+				"description": "Allow you to retrive an access token to access protected routes."
+			},
+			"response": []
+		},
+		{
+			"name": "get auction by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJlZGVyY29zdGEiLCJyYW5kaGFzaCI6IiQyYiQyMCRnTVptcnlhamEwQU1sZWJtLmRFOVNlIiwiaWF0IjoxNjAxMzkyOTgyfQ.QQpzRjdmcVLSWNm7STxAm_uaxhmfmjQ_1itPqJJWJBQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"edercosta@outlook.com\",\n    \"amount\": 100.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auction/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auction",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start auction by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJlZGVyY29zdGEiLCJyYW5kaGFzaCI6IiQyYiQyMCRnTVptcnlhamEwQU1sZWJtLmRFOVNlIiwiaWF0IjoxNjAxMzkyOTgyfQ.QQpzRjdmcVLSWNm7STxAm_uaxhmfmjQ_1itPqJJWJBQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"edercosta@outlook.com\",\n    \"amount\": 100.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auction/1/start",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auction",
+						"1",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End auction by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJlZGVyY29zdGEiLCJyYW5kaGFzaCI6IiQyYiQyMCRnTVptcnlhamEwQU1sZWJtLmRFOVNlIiwiaWF0IjoxNjAxMzkyOTgyfQ.QQpzRjdmcVLSWNm7STxAm_uaxhmfmjQ_1itPqJJWJBQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"edercosta@outlook.com\",\n    \"amount\": 100.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auction/1/end",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auction",
+						"1",
+						"end"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add bid into auction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJlZGVyY29zdGEiLCJyYW5kaGFzaCI6IiQyYiQyMCRnTVptcnlhamEwQU1sZWJtLmRFOVNlIiwiaWF0IjoxNjAxMzkyOTgyfQ.QQpzRjdmcVLSWNm7STxAm_uaxhmfmjQ_1itPqJJWJBQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"edercosta@outlook.com\",\n    \"amount\": 100.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auction/1/bid",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auction",
+						"1",
+						"bid"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

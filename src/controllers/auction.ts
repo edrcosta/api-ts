@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { ResponseHelper } from '../helpers';
-import { AuctionsBussiness, BidBussiness } from '../bussiness';
+import { AuctionsBussiness } from '../bussiness';
 
 export class AuctionController
 {
@@ -8,46 +8,18 @@ export class AuctionController
     
     public async start(req: Request, res : Response){
         const auctionBussiness = new AuctionsBussiness();
-        
-        const auctionId = parseInt(req.params.id);
 
-        const verifyStatus = await auctionBussiness.countWhere({
-            status: 'finished',
-            id: auctionId
-        });
-
-        if(verifyStatus && verifyStatus > 0){
-            return res.json({
-                status: 'finished'
-            })
-        }
-
-        const result = await auctionBussiness.update(auctionId, {
-            status: 'ongoing'
-        });
-
-        if(!result) return res.json(this.error);            
-    
-        return res.json(ResponseHelper.formatData({ status: 'ongoing'}));
+        return res.json(await auctionBussiness.start(
+            parseInt(req.params.id)
+        ));
     }
 
     public async end(req: Request, res : Response){
-        const bidBussiness = new BidBussiness();
         const auctionBussiness = new AuctionsBussiness()
 
-        const auctionId = parseInt(req.params.id);
-        
-        const result = await auctionBussiness.update(auctionId, {
-            status: 'finished',
-            winner: await bidBussiness.getWinner(auctionId)
-        });
-
-        if(!result) return res.json(this.error);
-
-        return res.json(ResponseHelper.formatData({ 
-            status: 'finished',
-            winner: await bidBussiness.getWinner(auctionId)
-        }));
+        return res.json(await auctionBussiness.end(
+            parseInt(req.params.id)
+        ));
     }
 
     public async getOne(req: Request, res : Response){
